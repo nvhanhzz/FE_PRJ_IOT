@@ -152,10 +152,54 @@
             "logout": "Logout"
         },
         "user": {
-            "title": "User"
+            "title": "User",
+            "username": "Username",
+            "email": "Email",
+            "phone": "Phone",
+            "gender": "Gender",
+            "className": "Class",
+            "createdBy": "Created By",
+            "modifiedBy": "Modified By",
+            "rfidCode": "RFID Code",
+            "studentCode": "Student Code",
+            "noData": "No data available",
+            "searchPlaceholder": "Search users...",
+            "deleteConfirm": "Are you sure you want to delete?",
+            "deleteSelectedButton": "Delete Selected",
+            "deleteSelectedConfirm": "Confirm",
+            "deleteSelectedCancel": "Cancel",
+            "deleteSuccess": "Deleted successfully!",
+            "deleteError": "Error while deleting!",
+            "createNewButton": "Create New User",
+            "fetchError": "Error fetching data!"
         },
         "device": {
-            "title": "Device"
+            "title": "Device",
+            "name": "Name",
+            "codeDevice": "Device Code",
+            "createdBy": "Created By",
+            "location": "Location",
+            "modifiedBy": "Modified By",
+            "fetchError": "Error fetching devices",
+            "deleteSuccess": "Device deleted successfully",
+            "deleteError": "Error deleting device",
+            "createTitle": "Create Device",
+            "updateTitle": "Update Device",
+            "deleteConfirm": "Are you sure you want to delete this device?",
+            "form": {
+                "name": "Name",
+                "codeDevice": "Device Code",
+                "createdBy": "Created By",
+                "location": "Location",
+                "modifiedBy": "Modified By"
+            },
+            "placeholders": {
+                "search": "Search devices..."
+            },
+            "create": {
+                "title": "Create new",
+                "createDeviceButton": "Create device"
+            }
         }
     },
     "client": {}

@@ -152,10 +152,54 @@
             "logout": "Đăng xuất"
         },
         "user": {
-            "title": "Người dùng"
+            "title": "Người dùng",
+            "username": "Tên đăng nhập",
+            "email": "Email",
+            "phone": "Số điện thoại",
+            "gender": "Giới tính",
+            "className": "Lớp",
+            "createdBy": "Tạo bởi",
+            "modifiedBy": "Chỉnh sửa bởi",
+            "rfidCode": "Mã RFID",
+            "studentCode": "Mã sinh viên",
+            "noData": "Không có dữ liệu",
+            "searchPlaceholder": "Tìm kiếm người dùng...",
+            "deleteConfirm": "Bạn có chắc chắn muốn xóa không?",
+            "deleteSelectedButton": "Xóa đã chọn",
+            "deleteSelectedConfirm": "Xác nhận",
+            "deleteSelectedCancel": "Hủy bỏ",
+            "deleteSuccess": "Xóa thành công!",
+            "deleteError": "Lỗi khi xóa!",
+            "createNewButton": "Tạo người dùng mới",
+            "fetchError": "Lỗi khi lấy dữ liệu!"
         },
         "device": {
-            "title": "Thiết bị"
+            "title": "Thiết bị",
+            "name": "Tên",
+            "codeDevice": "Mã Thiết Bị",
+            "createdBy": "Người Tạo",
+            "location": "Vị Trí",
+            "modifiedBy": "Người Chỉnh Sửa",
+            "fetchError": "Lỗi tải thông tin thiết bị",
+            "deleteSuccess": "Xóa thiết bị thành công",
+            "deleteError": "Lỗi xóa thiết bị",
+            "createTitle": "Tạo Thiết Bị Mới",
+            "updateTitle": "Cập Nhật Thiết Bị",
+            "deleteConfirm": "Bạn có chắc chắn muốn xóa thiết bị này không?",
+            "form": {
+                "name": "Tên",
+                "codeDevice": "Mã Thiết Bị",
+                "createdBy": "Người Tạo",
+                "location": "Vị Trí",
+                "modifiedBy": "Người Chỉnh Sửa"
+            },
+            "placeholders": {
+                "search": "Tìm kiếm thiết bị..."
+            },
+            "create": {
+                "title": "Tạo mới",
+                "createDeviceButton": "Tạo mới"
+            }
         }
     },
     "client": {}

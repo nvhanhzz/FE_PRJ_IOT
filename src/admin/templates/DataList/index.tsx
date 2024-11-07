@@ -10,19 +10,19 @@ export interface DataListConfig<T> {
     columns: TableColumnsType<T>;
     data: T[];
     rowKey: string;
-    onCreateNew: () => void;
+    onCreateNew?: () => void;
     onUpdate: (id: string) => void;
     onDelete: (id: string) => void;
-    onDeleteSelected: (ids: React.Key[]) => void;
+    onDeleteSelected?: (ids: React.Key[]) => void; // Optional for bulk delete
     search?: {
-        keyword?: string; // Từ khóa tìm kiếm
-        onSearch: (value: string) => void; // Hàm tìm kiếm
+        keyword?: string;
+        onSearch: (value: string) => void;
     };
-    pagination: {
+    pagination?: {
         totalItems: number;
         currentPage: number;
         pageSize: number;
-        onPaginationChange?: (page: number, pageSize: number, keyword?: string) => void; // Hàm thay đổi phân trang
+        onPaginationChange?: (page: number, pageSize: number, keyword?: string) => void;
     };
 }
 
@@ -30,19 +30,23 @@ const DataListTemplate = <T extends { id: string }>({
                                                         config,
                                                     }: { config: DataListConfig<T> }): JSX.Element => {
     const [selectedIds, setSelectedIds] = useState<React.Key[]>([]);
-    const [searchKeyword, setSearchKeyword] = useState<string>(config.search?.keyword || ''); // State cho từ khóa tìm kiếm
+    const [searchKeyword, setSearchKeyword] = useState<string>(config.search?.keyword || '');
     const { t } = useTranslation();
 
     const handleTableChange = (
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         _pagination: TablePaginationConfig,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         _filters: Record<string, FilterValue | null>,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         _sorter: SorterResult<T> | SorterResult<T>[],
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         _extra: TableCurrentDataSource<T>
     ) => { };
 
     const handleSearchEnter = () => {
         if (config.search) {
-            config.search.onSearch(searchKeyword); // Gọi hàm onSearch khi nhấn Enter
+            config.search.onSearch(searchKeyword);
         }
     };
 
@@ -68,18 +72,21 @@ const DataListTemplate = <T extends { id: string }>({
         <>
             <Row justify="space-between" className="data-list__header">
                 <Col>
-                    <Button className="data-list__create-button" type="primary" icon={<PlusOutlined />} onClick={config.onCreateNew}>
-                        {t('admin.dataList.createNewButton')}
-                    </Button>
+                    {
+                        config.onCreateNew &&
+                        <Button className="data-list__create-button" type="primary" icon={<PlusOutlined />} onClick={config.onCreateNew}>
+                            {t('admin.dataList.createNewButton')}
+                        </Button>
+                    }
                 </Col>
                 <Col>
                     {config.search && (
                         <Input
                             className="data-list__search-input"
                             placeholder={t('admin.dataList.searchPlaceholder')}
-                            value={searchKeyword} // Hiển thị từ khóa tìm kiếm hiện tại
-                            onPressEnter={handleSearchEnter} // Xử lý sự kiện nhấn Enter
-                            onChange={(e) => setSearchKeyword(e.target.value)} // Cập nhật từ khóa khi người dùng nhập
+                            value={searchKeyword}
+                            onPressEnter={handleSearchEnter}
+                            onChange={(e) => setSearchKeyword(e.target.value)}
                             prefix={<SearchOutlined />}
                         />
                     )}
@@ -93,43 +100,49 @@ const DataListTemplate = <T extends { id: string }>({
                 rowKey={config.rowKey}
                 pagination={false}
                 onChange={handleTableChange}
-                rowSelection={{
-                    selectedRowKeys: selectedIds,
-                    onChange: (keys) => setSelectedIds(keys),
-                }}
+                rowSelection={
+                    config.onDeleteSelected ? {
+                        selectedRowKeys: selectedIds,
+                        onChange: (keys) => setSelectedIds(keys),
+                    } : undefined // Only enable row selection if onDeleteSelected is defined
+                }
             />
 
             <Row justify="space-between" className="data-list__footer" style={{ marginTop: '16px' }}>
                 <Col>
-                    <Popconfirm
-                        title={t('admin.dataList.deleteConfirm')}
-                        onConfirm={() => config.onDeleteSelected(selectedIds)}
-                        okText={t('admin.dataList.deleteSelectedConfirm')}
-                        cancelText={t('admin.dataList.deleteSelectedCancel')}
-                    >
-                        <Button
-                            className="data-list__delete-selected-button"
-                            type="primary"
-                            danger
-                            disabled={selectedIds.length === 0}
+                    {config.onDeleteSelected && (
+                        <Popconfirm
+                            title={t('admin.dataList.deleteConfirm')}
+                            onConfirm={() => config.onDeleteSelected && config.onDeleteSelected(selectedIds)}
+                            okText={t('admin.dataList.deleteSelectedConfirm')}
+                            cancelText={t('admin.dataList.deleteSelectedCancel')}
                         >
-                            {t('admin.dataList.deleteSelectedButton')}
-                        </Button>
-                    </Popconfirm>
+                            <Button
+                                className="data-list__delete-selected-button"
+                                type="primary"
+                                danger
+                                disabled={selectedIds.length === 0}
+                            >
+                                {t('admin.dataList.deleteSelectedButton')}
+                            </Button>
+                        </Popconfirm>
+                    )}
                 </Col>
                 <Col>
-                    <Pagination
-                        current={config.pagination.currentPage || 1}
-                        total={config.pagination.totalItems}
-                        pageSize={config.pagination.pageSize}
-                        showSizeChanger
-                        pageSizeOptions={['5', '10', '20', '50', '100']}
-                        onChange={(page, pageSize) => {
-                            if (config.pagination.onPaginationChange) {
-                                config.pagination.onPaginationChange(page, pageSize || config.pagination.pageSize, searchKeyword); // Thêm từ khóa tìm kiếm khi phân trang
-                            }
-                        }}
-                    />
+                    {config.pagination &&
+                        <Pagination
+                            current={config.pagination.currentPage || 1}
+                            total={config.pagination.totalItems}
+                            pageSize={config.pagination.pageSize}
+                            showSizeChanger
+                            pageSizeOptions={['5', '10', '20', '50', '100']}
+                            onChange={(page, pageSize) => {
+                                if (config.pagination && config.pagination.onPaginationChange) {
+                                    config.pagination.onPaginationChange(page, pageSize || config.pagination.pageSize, searchKeyword);
+                                }
+                            }}
+                        />
+                    }
                 </Col>
             </Row>
         </>
