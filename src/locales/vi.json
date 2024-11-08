@@ -156,7 +156,12 @@
             "username": "Tên đăng nhập",
             "email": "Email",
             "phone": "Số điện thoại",
-            "gender": "Giới tính",
+            "gender": {
+                "title": "Giới tính",
+                "male": "Nam",
+                "female": "Nữ",
+                "other": "Khác"
+            },
             "className": "Lớp",
             "createdBy": "Tạo bởi",
             "modifiedBy": "Chỉnh sửa bởi",
@@ -171,7 +176,11 @@
             "deleteSuccess": "Xóa thành công!",
             "deleteError": "Lỗi khi xóa!",
             "createNewButton": "Tạo người dùng mới",
-            "fetchError": "Lỗi khi lấy dữ liệu!"
+            "fetchError": "Lỗi khi lấy dữ liệu!",
+            "update" : {
+                "title": "Cập nhật người dùng",
+                "updateButton": "Cập nhật người dùng"
+            }
         },
         "device": {
             "title": "Thiết bị",
@@ -200,6 +209,9 @@
                 "title": "Tạo mới",
                 "createDeviceButton": "Tạo mới"
             }
+        },
+        "entryAndExit": {
+            "title": "Lịch sử vào ra"
         }
     },
     "client": {}

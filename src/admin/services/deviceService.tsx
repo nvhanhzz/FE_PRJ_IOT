@@ -1,4 +1,4 @@
-import {del, postJson} from "../utils/request";
+import {del, get, patchJson, postJson} from "../utils/request";
 import {getWithParams} from "../utils/getWithParams.tsx";
 import {Device} from "../pages/Device/Create";
 
@@ -34,3 +34,23 @@ export const postDevice = async (option: Device): Promise<Response> => {
         throw error;
     }
 }
+
+export const getDeviceById = async (id: string): Promise<Response> => {
+    try {
+        const response = await get(`${PREFIX_DEVICE}/${id}`);
+        return response;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+};
+
+export const updateDeviceById = async (id: string, option: Device): Promise<Response> => {
+    try {
+        const response = await patchJson(`${PREFIX_DEVICE}/${id}`, option);
+        return response;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+};

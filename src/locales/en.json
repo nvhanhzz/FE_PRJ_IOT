@@ -156,7 +156,12 @@
             "username": "Username",
             "email": "Email",
             "phone": "Phone",
-            "gender": "Gender",
+            "gender": {
+                "title": "Gender",
+                "male": "Male",
+                "female": "Female",
+                "other": "Other"
+            },
             "className": "Class",
             "createdBy": "Created By",
             "modifiedBy": "Modified By",
@@ -171,7 +176,11 @@
             "deleteSuccess": "Deleted successfully!",
             "deleteError": "Error while deleting!",
             "createNewButton": "Create New User",
-            "fetchError": "Error fetching data!"
+            "fetchError": "Error fetching data!",
+            "update" : {
+                "title": "Update user",
+                "updateButton": "Update user"
+            }
         },
         "device": {
             "title": "Device",
@@ -199,7 +208,14 @@
             "create": {
                 "title": "Create new",
                 "createDeviceButton": "Create device"
+            },
+            "update": {
+                "title": "Update device",
+                "updateDeviceButton": "Update device"
             }
+        },
+        "entryAndExit": {
+            "title": "Entry and exit"
         }
     },
     "client": {}

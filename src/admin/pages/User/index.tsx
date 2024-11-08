@@ -135,7 +135,7 @@ const UserPage: React.FC = () => {
                 key: 'phone',
             },
             {
-                title: t('admin.user.gender'),
+                title: t('admin.user.gender.title'),
                 dataIndex: 'gender',
                 key: 'gender',
             },

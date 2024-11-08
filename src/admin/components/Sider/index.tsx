@@ -7,7 +7,8 @@ import {
     KeyOutlined,
     CrownOutlined,
     UserOutlined,
-    ScanOutlined
+    ScanOutlined,
+    SwapOutlined
 } from '@ant-design/icons';
 import { useNavigate, useLocation } from 'react-router-dom';
 import './Sider.scss';
@@ -57,6 +58,11 @@ const menuItems: MenuItem[] = [
         icon: <ScanOutlined  />,
         label: 'admin.device.title',
         linkTo: 'devices'
+    },
+    {
+        icon: <SwapOutlined  />,
+        label: 'admin.entryAndExit.title',
+        linkTo: 'entry-and-exit'
     },
     {
         icon: <SettingOutlined />,

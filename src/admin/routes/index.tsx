@@ -18,6 +18,8 @@ import UpdateAccount from "../pages/Account/Update";
 import UserPage from "../pages/User";
 import DevicePage from "../pages/Device";
 import CreateDevice from "../pages/Device/Create";
+import EditDevice from "../pages/Device/Update";
+import EditUser from "../pages/User/Update";
 
 const PREFIX_URL_ADMIN: string = import.meta.env.VITE_PREFIX_URL_ADMIN as string;
 
@@ -87,12 +89,21 @@ const DefaultRoutes: RouteType[] = [
         element: <UserPage />,
     },
     {
+        path: 'users/update/:id',
+        element: <EditUser />,
+    },
+    {
         path: 'devices',
         element: <DevicePage />,
     },
     {
         path: 'devices/create',
         element: <CreateDevice />,
+    },
+
+    {
+        path: 'devices/update/:id',
+        element: <EditDevice />,
     },
     {
         path: 'settings',

@@ -1,5 +1,6 @@
-import {del} from "../utils/request";
+import {del, get, patchJson} from "../utils/request";
 import {getWithParams} from "../utils/getWithParams.tsx";
+import {User} from "../pages/User/Update";
 
 const PREFIX_USER: string = import.meta.env.VITE_PREFIX_USER as string;
 
@@ -18,6 +19,26 @@ export const deleteUser = async (ids: string[]): Promise<Response> => {
         const idString = ids.join(',');
         const url = `${PREFIX_USER}/${idString}`;
         return await del(url);
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+};
+
+export const getUserById = async (id: string): Promise<Response> => {
+    try {
+        const response = await get(`${PREFIX_USER}/${id}`);
+        return response;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+};
+
+export const updateUserById = async (id: string, option: User): Promise<Response> => {
+    try {
+        const response = await patchJson(`${PREFIX_USER}/${id}`, option);
+        return response;
     } catch (error) {
         console.error(error);
         throw error;
