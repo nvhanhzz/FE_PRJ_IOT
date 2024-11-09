@@ -76,7 +76,7 @@ const AppSider: React.FC<SiderProps> = ({ collapsed }) => {
     const location = useLocation();
     const { t } = useTranslation();
 
-    const [selectedKey, setSelectedKey] = useState<string>('1');
+    const [selectedKey, setSelectedKey] = useState<string>('0');
 
     useEffect(() => {
         const matchingItem = menuItems.find(item => item.linkTo === location.pathname.split('/')[2]);

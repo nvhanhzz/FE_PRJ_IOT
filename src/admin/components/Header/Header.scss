@@ -11,17 +11,20 @@
         font-size: 18px;
     }
 
-    .avatar-button {
-        cursor: pointer;
-        margin-left: auto; // Đẩy avatar về phía cuối của header
-    }
-
     .logout-icon {
         display: flex;
         align-items: center;
+        font-size: 20px; // Slightly increase icon size
+        cursor: pointer;
+        transition: color 0.3s, transform 0.3s; // Smooth transition for hover effects
+
+        &:hover {
+            transform: scale(1.1); // Slightly increase size on hover
+        }
 
         &.loading {
-            animation: spin 1s linear infinite; // Thêm animation xoay
+            animation: spin 0.8s linear infinite; // Faster spin animation during loading
+            color: #1890ff; // Optional color change during loading to make it stand out
         }
     }
 
@@ -29,10 +32,8 @@
         0% {
             transform: rotate(0deg);
         }
-
         100% {
             transform: rotate(360deg);
         }
     }
-
 }

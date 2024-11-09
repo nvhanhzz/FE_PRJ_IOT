@@ -94,9 +94,7 @@ const DevicePage: React.FC = () => {
             { title: 'No.', dataIndex: 'key', render: (_, __, index) => index + 1 + (currentPage - 1) * pageSize },
             { title: t('admin.device.name'), dataIndex: 'name', key: 'name', sorter: (a: Device, b: Device) => a.name.localeCompare(b.name) },
             { title: t('admin.device.codeDevice'), dataIndex: 'codeDevice', key: 'codeDevice' },
-            { title: t('admin.device.location'), dataIndex: 'location', key: 'location' },
-            { title: t('admin.device.createdBy'), dataIndex: 'createdBy', key: 'createdBy' },
-            { title: t('admin.device.modifiedBy'), dataIndex: 'modifiedBy', key: 'modifiedBy' }
+            { title: t('admin.device.location'), dataIndex: 'location', key: 'location' }
         ],
         data: data,
         rowKey: 'id',

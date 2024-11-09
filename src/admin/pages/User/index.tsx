@@ -16,10 +16,8 @@ export interface User {
     modifiedDate: Date;
     username: string;
     className: string;
-    createdBy: string;
     email: string;
     gender: string;
-    modifiedBy: string;
     phone: string;
     rfidCode: string;
     studentCode: string;
@@ -45,6 +43,7 @@ const UserPage: React.FC = () => {
                 return;
             }
             const result = await response.json();
+            console.log(result);
             const content: User[] = result.data.content;
             const users = content.map((item) => ({
                 ...item,
@@ -143,16 +142,6 @@ const UserPage: React.FC = () => {
                 title: t('admin.user.className'),
                 dataIndex: 'className',
                 key: 'className',
-            },
-            {
-                title: t('admin.user.createdBy'),
-                dataIndex: 'createdBy',
-                key: 'createdBy',
-            },
-            {
-                title: t('admin.user.modifiedBy'),
-                dataIndex: 'modifiedBy',
-                key: 'modifiedBy',
             },
             {
                 title: t('admin.user.rfidCode'),

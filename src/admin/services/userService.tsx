@@ -7,7 +7,11 @@ const PREFIX_USER = import.meta.env.VITE_PREFIX_USER as string;
 
 export const getUsers = (page?: number, pageSize?: number, searchKey?: string, searchValue?: string): Promise<Response> => {
     const url = `${PREFIX_USER}`;
-    const params = { page, pageSize, [searchKey || '']: searchValue };
+    const params = Object.fromEntries(
+        Object.entries({ page, pageSize, searchKey, searchValue }).filter(
+            ([, value]) => value !== undefined
+        )
+    );
     return handleRequest(getWithParams(url, params));
 };
 
