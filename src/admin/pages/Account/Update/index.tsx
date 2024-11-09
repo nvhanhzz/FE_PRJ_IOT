@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Form, Input, message, Upload, DatePicker, Select, Row, Col } from 'antd';
-import { UploadOutlined } from '@ant-design/icons';
+import { Button, Form, Input, message, DatePicker, Select, Row, Col } from 'antd';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import OutletTemplate from '../../../templates/Outlet';
 import { getAccountById, updateAccountById } from "../../../services/accountService";
 import { getRoles } from "../../../services/roleSevice.tsx";
 import './UpdateAccount.scss';
-import { RcFile } from "antd/es/upload";
 import { Role } from "../../Role";
 import { AccountFormValues } from "../Create";
 import { Account } from "../index.tsx";
@@ -18,7 +16,6 @@ const PREFIX_URL_ADMIN: string = import.meta.env.VITE_PREFIX_URL_ADMIN as string
 const UpdateAccount: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const [loading, setLoading] = useState(false);
-    const [file, setFile] = useState<RcFile | null>(null);
     const [roles, setRoles] = useState<Role[]>([]);
     const [form] = Form.useForm();
     const { t } = useTranslation();
@@ -39,14 +36,14 @@ const UpdateAccount: React.FC = () => {
                         gender: data.gender,
                         role: data.role,
                         dateOfBirth: data.dateOfBirth,
-                        datePicker: data.dateOfBirth ? dayjs(data.dateOfBirth) : null,  // Chuyển thành đối tượng dayjs nếu có
+                        datePicker: data.dateOfBirth ? dayjs(data.dateOfBirth) : null, // Chuyển thành đối tượng dayjs nếu có
                     });
                 }
                 // eslint-disable-next-line @typescript-eslint/no-unused-vars
             } catch (e) {
                 message.error('Error fetching account data');
             }
-        }
+        };
 
         const fetchRoles = async () => {
             try {
@@ -69,35 +66,28 @@ const UpdateAccount: React.FC = () => {
 
     // Hàm xử lý khi cập nhật tài khoản
     const handleUpdateAccount = async (values: AccountFormValues) => {
-        console.log(values);
         setLoading(true);
         try {
-            const formData = new FormData();
-            formData.append('username', values.username);
-            formData.append('email', values.email);
-            formData.append('fullName', values.fullName);
-            formData.append('phone', values.phone);
-            formData.append('gender', values.gender);
-            formData.append('address', values.address);
-            formData.append('dateOfBirth', values.dateOfBirth);
-            formData.append('password', values.password);
-            formData.append('role', values.role);  // Gửi role người dùng chọn
-            if (file) {
-                formData.append('avatar', file);
-            }
+            const payload = {
+                username: values.username,
+                email: values.email,
+                fullName: values.fullName,
+                phone: values.phone,
+                gender: values.gender,
+                address: values.address,
+                dateOfBirth: values.dateOfBirth,
+                password: values.password,
+                role: values.role
+            };
 
-            const response = await updateAccountById(id as string, formData);
+            const response = await updateAccountById(id as string, payload);
             const result = await response.json();
-            if (!response.ok) {
-                message.error(result.message || t('admin.message.createError'));
-                return;
-            }
-            if (result.status !== 201) {
-                message.error(result.message || t('admin.message.createError'));
+            if (!response.ok || result.status !== 200) {
+                message.error(result.message || t('admin.message.updateError'));
                 return;
             }
 
-            message.success(t('admin.message.createSuccess'));
+            message.success(t('admin.message.updateSuccess'));
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (error) {
             message.error(t('admin.message.fetchError'));
@@ -106,15 +96,9 @@ const UpdateAccount: React.FC = () => {
         }
     };
 
-    // Hàm xử lý khi chọn avatar
-    const handleAvatarChange = ({ file }: { file: RcFile }) => {
-        setFile(file);
-    };
-
-    // Hàm xử lý khi reset form, bao gồm reset avatar
+    // Hàm xử lý khi reset form
     const handleResetForm = () => {
-        form.resetFields();  // Reset các trường trong form
-        setFile(null);       // Reset avatar về null
+        form.resetFields();
     };
 
     return (
@@ -129,10 +113,10 @@ const UpdateAccount: React.FC = () => {
                 form={form}
                 onFinish={handleUpdateAccount}
                 layout="vertical"
-                className="create-account-form"
+                className="update-account-form"
             >
-                <Row gutter={10}>
-                    <Col span={16}>
+                <Row gutter={16}>
+                    <Col span={12}>
                         <Form.Item
                             label={t('admin.account.fullName')}
                             name="fullName"
@@ -140,7 +124,8 @@ const UpdateAccount: React.FC = () => {
                         >
                             <Input />
                         </Form.Item>
-
+                    </Col>
+                    <Col span={12}>
                         <Form.Item
                             label={t('admin.account.email')}
                             name="email"
@@ -148,7 +133,11 @@ const UpdateAccount: React.FC = () => {
                         >
                             <Input />
                         </Form.Item>
+                    </Col>
+                </Row>
 
+                <Row gutter={16}>
+                    <Col span={12}>
                         <Form.Item
                             label={t('admin.account.username')}
                             name="username"
@@ -156,7 +145,8 @@ const UpdateAccount: React.FC = () => {
                         >
                             <Input />
                         </Form.Item>
-
+                    </Col>
+                    <Col span={12}>
                         <Form.Item
                             label={t('admin.account.phone')}
                             name="phone"
@@ -164,7 +154,11 @@ const UpdateAccount: React.FC = () => {
                         >
                             <Input />
                         </Form.Item>
+                    </Col>
+                </Row>
 
+                <Row gutter={16}>
+                    <Col span={12}>
                         <Form.Item
                             label={t('admin.account.password')}
                             name="password"
@@ -172,7 +166,8 @@ const UpdateAccount: React.FC = () => {
                         >
                             <Input.Password />
                         </Form.Item>
-
+                    </Col>
+                    <Col span={12}>
                         <Form.Item
                             label={t('admin.account.dateOfBirth')}
                             name="datePicker"
@@ -182,11 +177,14 @@ const UpdateAccount: React.FC = () => {
                                 format="YYYY-MM-DD"
                             />
                         </Form.Item>
-
                         <Form.Item name="dateOfBirth" style={{ display: 'none' }}>
                             <Input type="hidden" />
                         </Form.Item>
+                    </Col>
+                </Row>
 
+                <Row gutter={16}>
+                    <Col span={12}>
                         <Form.Item
                             label={t('admin.account.gender.title')}
                             name="gender"
@@ -198,7 +196,8 @@ const UpdateAccount: React.FC = () => {
                                 <Select.Option value="other">{t('admin.account.gender.other')}</Select.Option>
                             </Select>
                         </Form.Item>
-
+                    </Col>
+                    <Col span={12}>
                         <Form.Item
                             label={t('admin.account.role.title')}
                             name="role"
@@ -213,36 +212,12 @@ const UpdateAccount: React.FC = () => {
                             </Select>
                         </Form.Item>
                     </Col>
-
-                    <Col span={8} className="avatar-col">
-                        <Form.Item label={t('admin.account.avatar')} className="avatar-wrapper">
-                            <div className="avatar-preview">
-                                <Upload
-                                    listType="picture-card"
-                                    beforeUpload={(file) => {
-                                        handleAvatarChange({ file });
-                                        return false;  // Không cho phép upload tự động
-                                    }}
-                                    className="avatar-uploader"
-                                    showUploadList={false}  // Ẩn danh sách file sau khi upload
-                                >
-                                    <img
-                                        src={file ? URL.createObjectURL(file as Blob) : 'https://th.bing.com/th/id/OIP.lMA6AEzLnoPpw177nVhYZgHaHa?pid=ImgDet&w=184&h=184&c=7&dpr=1.3'}
-                                        alt="avatar"
-                                        className="avatar-image"
-                                    />
-                                </Upload>
-                                <Button className="upload-button">
-                                    <UploadOutlined /> {t('admin.account.upload')}
-                                </Button>
-                            </div>
-                        </Form.Item>
-                    </Col>
                 </Row>
+
                 <div className="form-actions">
                     <Button
                         htmlType="button"
-                        onClick={handleResetForm}  // Gọi hàm reset khi bấm nút Reset
+                        onClick={handleResetForm}
                         className="reset-button"
                     >
                         {t('admin.form.reset')}

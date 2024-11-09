@@ -9,14 +9,14 @@ export const getAttendanceRecords = (
     startDate?: string | undefined | number,
     endDate?: string | undefined | number,
     shift?: string | undefined | number,
-    username?: string | undefined | number,
+    studentCode?: string | undefined | number,
     nameDevice?: string | undefined | number
 ): Promise<Response> => {
     const url = `${PREFIX_ATTENDANCE}/filter`;
 
     // Chỉ bao gồm các tham số nào có giá trị
     const params = Object.fromEntries(
-        Object.entries({ page, pageSize, startDate, endDate, shift, username, nameDevice }).filter(
+        Object.entries({ page, pageSize, startDate, endDate, shift, studentCode, nameDevice }).filter(
             ([, value]) => value !== undefined
         )
     );

@@ -12,6 +12,7 @@ const PREFIX_URL_ADMIN: string = import.meta.env.VITE_PREFIX_URL_ADMIN as string
 
 export interface AttendanceRecord {
     rfidCode: string;
+    studentCode: string;
     fullName: string;
     attendanceTimeIn: string;
     onTime: boolean;
@@ -131,6 +132,11 @@ const AttendancePage: React.FC = () => {
             key: 'rfidCode',
         },
         {
+            title: t('admin.attendance.studentCode'),
+            dataIndex: 'studentCode',
+            key: 'studentCode',
+        },
+        {
             title: t('admin.attendance.fullName'),
             dataIndex: 'fullName',
             key: 'fullName',
@@ -211,7 +217,7 @@ const AttendancePage: React.FC = () => {
                     />
                 </Form.Item>
                 <Form.Item label={t('admin.attendance.studentCode')} name="studentCode">
-                    <Input style={{ width: '100px' }} />
+                    <Input style={{ width: '120px' }} />
                 </Form.Item>
                 <Form.Item label={t('admin.attendance.nameDevice')} name="nameDevice">
                     <Select
