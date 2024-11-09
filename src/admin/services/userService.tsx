@@ -1,46 +1,27 @@
-import {del, get, patchJson} from "../utils/request";
-import {getWithParams} from "../utils/getWithParams.tsx";
-import {User} from "../pages/User/Update";
+import { del, get, patchJson } from "../utils/request";
+import { getWithParams } from "../utils/getWithParams.tsx";
+import { User } from "../pages/User/Update";
+import handleRequest from "../utils/handleRequest.tsx";
 
-const PREFIX_USER: string = import.meta.env.VITE_PREFIX_USER as string;
+const PREFIX_USER = import.meta.env.VITE_PREFIX_USER as string;
 
-export const getUsers = async (page?: number, pageSize?: number, searchKey?: string, searchValue?: string): Promise<Response> => {
-    try {
-        const url = `${PREFIX_USER}`;
-        return getWithParams(url, page, pageSize, searchKey, searchValue);
-    } catch (error) {
-        console.error(error);
-        throw error;
-    }
+export const getUsers = (page?: number, pageSize?: number, searchKey?: string, searchValue?: string): Promise<Response> => {
+    const url = `${PREFIX_USER}`;
+    const params = { page, pageSize, [searchKey || '']: searchValue };
+    return handleRequest(getWithParams(url, params));
 };
 
-export const deleteUser = async (ids: string[]): Promise<Response> => {
-    try {
-        const idString = ids.join(',');
-        const url = `${PREFIX_USER}/${idString}`;
-        return await del(url);
-    } catch (error) {
-        console.error(error);
-        throw error;
-    }
+export const deleteUser = (ids: string[]): Promise<Response> => {
+    const url = `${PREFIX_USER}/${ids.join(',')}`;
+    return handleRequest(del(url));
 };
 
-export const getUserById = async (id: string): Promise<Response> => {
-    try {
-        const response = await get(`${PREFIX_USER}/${id}`);
-        return response;
-    } catch (error) {
-        console.error(error);
-        throw error;
-    }
+export const getUserById = (id: string): Promise<Response> => {
+    const url = `${PREFIX_USER}/${id}`;
+    return handleRequest(get(url));
 };
 
-export const updateUserById = async (id: string, option: User): Promise<Response> => {
-    try {
-        const response = await patchJson(`${PREFIX_USER}/${id}`, option);
-        return response;
-    } catch (error) {
-        console.error(error);
-        throw error;
-    }
+export const updateUserById = (id: string, option: User): Promise<Response> => {
+    const url = `${PREFIX_USER}/${id}`;
+    return handleRequest(patchJson(url, option));
 };

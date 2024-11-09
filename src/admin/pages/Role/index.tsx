@@ -45,6 +45,7 @@ const RolePage: React.FC = () => {
             }));
             setTotalItems(result.data.totalElements);
             setData(roles);
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (error) {
             message.error(t('admin.message.fetchError')); // Thông báo khi có lỗi
         } finally {

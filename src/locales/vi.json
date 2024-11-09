@@ -210,8 +210,25 @@
                 "createDeviceButton": "Tạo mới"
             }
         },
-        "entryAndExit": {
-            "title": "Lịch sử vào ra"
+        "attendance": {
+            "title": "Điểm danh",
+            "rfidCode": "Mã RFID",
+            "fullName": "Họ và tên",
+            "attendanceTimeIn": "Thời gian vào",
+            "attendanceTimeOut": "Thời gian ra",
+            "onTime": "Đúng giờ",
+            "onTimeYes": "Có",
+            "onTimeNo": "Không",
+            "shift": "Ca",
+            "date": "Ngày",
+            "nameDevice": "Thiết bị",
+            "filter": "Lọc",
+            "startDate": "Ngày bắt đầu",
+            "endDate": "Ngày kết thúc",
+            "studentCode": "Mã sinh viên",
+            "shiftMorning": "Sáng",
+            "shiftAfternoon": "Chiều",
+            "shiftOverTime": "Ngoài giờ"
         }
     },
     "client": {}

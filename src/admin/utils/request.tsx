@@ -1,10 +1,10 @@
 const DOMAIN: string = import.meta.env.VITE_DOMAIN as string;
 const PREFIX_API: string = import.meta.env.VITE_PREFIX_API as string;
-const PREFIX_ACCOUNT: string = import.meta.env.VITE_PREFIX_ACCOUNT as string;
+const PREFIX_AUTH: string = import.meta.env.VITE_PREFIX_AUTH as string;
 
 const refreshToken = async (): Promise<boolean> => {
     try {
-        const response = await fetch(`${DOMAIN}/${PREFIX_API}/${PREFIX_ACCOUNT}/refresh-token`, {
+        const response = await fetch(`${DOMAIN}/${PREFIX_API}/${PREFIX_AUTH}/refresh-token`, {
             method: 'POST',
             credentials: 'include',
         });

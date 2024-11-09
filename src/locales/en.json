@@ -214,8 +214,25 @@
                 "updateDeviceButton": "Update device"
             }
         },
-        "entryAndExit": {
-            "title": "Entry and exit"
+        "attendance": {
+            "title": "Attendance",
+            "rfidCode": "RFID Code",
+            "fullName": "Full Name",
+            "attendanceTimeIn": "Time In",
+            "attendanceTimeOut": "Time Out",
+            "onTime": "On Time",
+            "onTimeYes": "Yes",
+            "onTimeNo": "No",
+            "shift": "Shift",
+            "date": "Date",
+            "nameDevice": "Name Device",
+            "filter": "Filter",
+            "startDate": "Start Date",
+            "endDate": "End Date",
+            "studentCode": "Student code",
+            "shiftMorning": "Morning",
+            "shiftAfternoon": "Afternoon",
+            "shiftOverTime": "Over time"
         }
     },
     "client": {}

@@ -61,8 +61,8 @@ const menuItems: MenuItem[] = [
     },
     {
         icon: <SwapOutlined  />,
-        label: 'admin.entryAndExit.title',
-        linkTo: 'entry-and-exit'
+        label: 'admin.attendance.title',
+        linkTo: 'attendance'
     },
     {
         icon: <SettingOutlined />,

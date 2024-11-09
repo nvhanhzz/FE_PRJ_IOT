@@ -20,6 +20,7 @@ import DevicePage from "../pages/Device";
 import CreateDevice from "../pages/Device/Create";
 import EditDevice from "../pages/Device/Update";
 import EditUser from "../pages/User/Update";
+import AttendancePage from "../pages/Attendance";
 
 const PREFIX_URL_ADMIN: string = import.meta.env.VITE_PREFIX_URL_ADMIN as string;
 
@@ -100,10 +101,13 @@ const DefaultRoutes: RouteType[] = [
         path: 'devices/create',
         element: <CreateDevice />,
     },
-
     {
         path: 'devices/update/:id',
         element: <EditDevice />,
+    },
+    {
+        path: 'attendance',
+        element: <AttendancePage />,
     },
     {
         path: 'settings',
