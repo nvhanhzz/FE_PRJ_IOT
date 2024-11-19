@@ -188,6 +188,7 @@
             "codeDevice": "Device Code",
             "createdBy": "Created By",
             "location": "Location",
+            "status": "Status",
             "modifiedBy": "Modified By",
             "fetchError": "Error fetching devices",
             "deleteSuccess": "Device deleted successfully",
@@ -232,7 +233,8 @@
             "studentCode": "Student code",
             "shiftMorning": "Morning",
             "shiftAfternoon": "Afternoon",
-            "shiftOverTime": "Over time"
+            "shiftOverTime": "Over time",
+            "export": "Export"
         }
     },
     "client": {}

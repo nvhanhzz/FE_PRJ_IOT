@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { message, Spin } from 'antd';
+import { message, Spin, Tag } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import OutletTemplate from '../../templates/Outlet';
@@ -7,6 +7,13 @@ import DataListTemplate from '../../templates/DataList';
 import type { DataListConfig } from '../../templates/DataList';
 import { LoadingOutlined } from '@ant-design/icons';
 import { deleteDevice, getDevices } from '../../services/deviceService';
+import { Client } from '@stomp/stompjs';
+import SockJS from 'sockjs-client';
+
+// Định nghĩa biến global nếu nó chưa được định nghĩa
+if (typeof global === 'undefined') {
+    (window as any).global = window;
+}
 
 const PREFIX_URL_ADMIN: string = import.meta.env.VITE_PREFIX_URL_ADMIN as string;
 
@@ -19,6 +26,7 @@ export interface Device {
     location: string;
     modifiedBy: string;
     name: string;
+    status: string;
 }
 
 const DevicePage: React.FC = () => {
@@ -57,6 +65,29 @@ const DevicePage: React.FC = () => {
         fetchData(currentPage, pageSize);
     }, [currentPage, pageSize]);
 
+    useEffect(() => {
+        const socket = new SockJS('/ws');
+        const client = new Client({
+            webSocketFactory: () => socket,
+            onConnect: () => {
+                client.subscribe('/topic/deviceStatus', (message) => {
+                    const updatedDevice = JSON.parse(message.body);
+                    setData((prevData) =>
+                        prevData.map((device) =>
+                            device.id === updatedDevice.id ? { ...device, status: updatedDevice.status } : device
+                        )
+                    );
+                });
+            },
+        });
+
+        client.activate();
+
+        return () => {
+            client.deactivate();
+        };
+    }, []);
+
     const handleDelete = async (id: string) => {
         setIsLoading(true);
         try {
@@ -94,7 +125,16 @@ const DevicePage: React.FC = () => {
             { title: 'No.', dataIndex: 'key', render: (_, __, index) => index + 1 + (currentPage - 1) * pageSize },
             { title: t('admin.device.name'), dataIndex: 'name', key: 'name', sorter: (a: Device, b: Device) => a.name.localeCompare(b.name) },
             { title: t('admin.device.codeDevice'), dataIndex: 'codeDevice', key: 'codeDevice' },
-            { title: t('admin.device.location'), dataIndex: 'location', key: 'location' }
+            { title: t('admin.device.location'), dataIndex: 'location', key: 'location' },
+            {
+                title: t('admin.device.status'),
+                dataIndex: 'status',
+                key: 'status',
+                render: (status: string) => {
+                  const color = status === 'online' ? 'green' : 'volcano';
+                  return <Tag color={color}>{status.toUpperCase()}</Tag>;
+                }
+              },
         ],
         data: data,
         rowKey: 'id',

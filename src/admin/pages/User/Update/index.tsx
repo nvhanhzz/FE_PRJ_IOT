@@ -27,6 +27,8 @@ const EditUser: React.FC = () => {
             try {
                 const response = await getUserById(id as string);
                 const result = await response.json();
+                
+                
                 if (!response.ok || result.status !== 200) {
                     message.error(t('admin.message.fetchError'));
                     return;
@@ -45,10 +47,13 @@ const EditUser: React.FC = () => {
         setLoading(true);
         try {
             const response = await updateUserById(id as string, values);
-            if (response.ok) {
+            // console.log(await response.json());
+            const result = await response.json();
+
+            if (result.status === 200) {
                 message.success(t('admin.message.updateSuccess'));
             } else {
-                const result = await response.json();
+                // const result = await response.json();
                 message.error(result.message || t('admin.message.updateError'));
             }
             // eslint-disable-next-line @typescript-eslint/no-unused-vars

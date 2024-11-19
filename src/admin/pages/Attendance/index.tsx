@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Button, DatePicker, Form, Input, message, Pagination, Select, Spin, Table } from 'antd';
+import { Button, DatePicker, Form, Input, message, Pagination, Select, Spin, Table, Tag } from 'antd';
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import OutletTemplate from '../../templates/Outlet';
 import { getAttendanceRecords } from '../../services/attendanceService';
-import { LoadingOutlined } from '@ant-design/icons';
+import { DownloadOutlined, LoadingOutlined } from '@ant-design/icons';
 import { Moment } from 'moment';
-import {getDevices} from "../../services/deviceService.tsx";
+import { getDevices } from "../../services/deviceService.tsx";
+import * as XLSX from 'xlsx';
 
 const PREFIX_URL_ADMIN: string = import.meta.env.VITE_PREFIX_URL_ADMIN as string;
 
@@ -125,6 +126,13 @@ const AttendancePage: React.FC = () => {
         fetchData(page, pageSize || 10);
     };
 
+    const exportToExcel = () => {
+        const worksheet = XLSX.utils.json_to_sheet(data);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Attendance');
+        XLSX.writeFile(workbook, 'attendance.xlsx');
+    };
+
     const columns = [
         {
             title: t('admin.attendance.rfidCode'),
@@ -150,7 +158,11 @@ const AttendancePage: React.FC = () => {
             title: t('admin.attendance.onTime'),
             dataIndex: 'onTime',
             key: 'onTime',
-            render: (onTime: boolean) => (onTime ? t('admin.attendance.onTimeYes') : t('admin.attendance.onTimeNo')),
+            render: (onTime: boolean) => (
+                <Tag color={onTime ? 'green' : 'red'}>
+                    {onTime ? t('admin.attendance.onTimeYes') : t('admin.attendance.onTimeNo')}
+                </Tag>
+            ),
         },
         {
             title: t('admin.attendance.shift'),
@@ -230,6 +242,11 @@ const AttendancePage: React.FC = () => {
                 <Form.Item>
                     <Button type="primary" onClick={() => fetchData(currentPage, pageSize)}>
                         {t('admin.attendance.filter')}
+                    </Button>
+                </Form.Item>
+                <Form.Item>
+                    <Button type="primary" icon={<DownloadOutlined/>} onClick={exportToExcel}>
+                        {t('admin.attendance.export')}
                     </Button>
                 </Form.Item>
             </Form>
