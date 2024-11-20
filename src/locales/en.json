@@ -213,6 +213,10 @@
             "update": {
                 "title": "Update device",
                 "updateDeviceButton": "Update device"
+            },
+            "status": {
+                "title": "Status",
+                "unknown": "Unknow"
             }
         },
         "attendance": {

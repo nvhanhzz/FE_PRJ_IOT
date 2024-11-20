@@ -97,7 +97,7 @@ const AttendancePage: React.FC = () => {
             const response = await getDevices();
             if (response.ok) {
                 const result = await response.json();
-                setDeviceOptions(result.data.content.map((device: { name: string }) => ({ label: device.name, value: device.name })));
+                setDeviceOptions(result.data.content.map((device: { location: string }) => ({ label: device.location, value: device.location })));
             }
         } catch (error) {
             console.error(error);

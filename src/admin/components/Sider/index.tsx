@@ -92,7 +92,7 @@ const AppSider: React.FC<SiderProps> = ({ collapsed }) => {
 
     const handleLogoClick = () => {
         navigate(`${PREFIX_URL_ADMIN}`);
-        setSelectedKey('1');
+        setSelectedKey('0');
     };
 
     const items = menuItems.map((item, index) => ({

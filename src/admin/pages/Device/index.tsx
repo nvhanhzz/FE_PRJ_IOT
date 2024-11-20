@@ -7,13 +7,6 @@ import DataListTemplate from '../../templates/DataList';
 import type { DataListConfig } from '../../templates/DataList';
 import { LoadingOutlined } from '@ant-design/icons';
 import { deleteDevice, getDevices } from '../../services/deviceService';
-import { Client } from '@stomp/stompjs';
-import SockJS from 'sockjs-client';
-
-// Định nghĩa biến global nếu nó chưa được định nghĩa
-if (typeof global === 'undefined') {
-    (window as any).global = window;
-}
 
 const PREFIX_URL_ADMIN: string = import.meta.env.VITE_PREFIX_URL_ADMIN as string;
 
@@ -65,29 +58,6 @@ const DevicePage: React.FC = () => {
         fetchData(currentPage, pageSize);
     }, [currentPage, pageSize]);
 
-    useEffect(() => {
-        const socket = new SockJS('/ws');
-        const client = new Client({
-            webSocketFactory: () => socket,
-            onConnect: () => {
-                client.subscribe('/topic/deviceStatus', (message) => {
-                    const updatedDevice = JSON.parse(message.body);
-                    setData((prevData) =>
-                        prevData.map((device) =>
-                            device.id === updatedDevice.id ? { ...device, status: updatedDevice.status } : device
-                        )
-                    );
-                });
-            },
-        });
-
-        client.activate();
-
-        return () => {
-            client.deactivate();
-        };
-    }, []);
-
     const handleDelete = async (id: string) => {
         setIsLoading(true);
         try {
@@ -127,14 +97,17 @@ const DevicePage: React.FC = () => {
             { title: t('admin.device.codeDevice'), dataIndex: 'codeDevice', key: 'codeDevice' },
             { title: t('admin.device.location'), dataIndex: 'location', key: 'location' },
             {
-                title: t('admin.device.status'),
+                title: t('admin.device.status.title'),
                 dataIndex: 'status',
                 key: 'status',
-                render: (status: string) => {
-                  const color = status === 'online' ? 'green' : 'volcano';
-                  return <Tag color={color}>{status.toUpperCase()}</Tag>;
-                }
-              },
+                render: (status: string | undefined) => {
+                    if (!status) {
+                        return <Tag color="default">{t('admin.device.status.unknown')}</Tag>;
+                    }
+                    const color = status === 'online' ? 'green' : 'volcano';
+                    return <Tag color={color}>{status.toUpperCase()}</Tag>;
+                },
+            },
         ],
         data: data,
         rowKey: 'id',
